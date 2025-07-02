@@ -40,15 +40,21 @@ const menu = [
   //to make file menu on mac
   ...(isMac ? [{ role: "appMenu" }] : []),
   {
-    label: "File",
-    submenu: [
-      {
-        label: "Quit",
-        click: () => app.quit(),
-        accelerator: "CmdOrCtrl+W",
-      },
-    ],
+    role: "fileMenu",
   },
+  ...(isDev
+    ? [
+        {
+          label: "Developer",
+          submenu: [
+            { role: "reload" },
+            { role: "forcereload" },
+            { type: "separator" },
+            { role: "toggledevtools" },
+          ],
+        },
+      ]
+    : []),
 ];
 
 app.allowRendererProcessReuse = true;
