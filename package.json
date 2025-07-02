@@ -1,0 +1,21 @@
+{
+  "name": "image-compressor-electron",
+  "version": "1.0.0",
+  "description": "App to optimize imagies",
+  "homepage": "https://github.com/Psevdon1m/image-compressor-electron#readme",
+  "bugs": {
+    "url": "https://github.com/Psevdon1m/image-compressor-electron/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Psevdon1m/image-compressor-electron.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  }
+}
