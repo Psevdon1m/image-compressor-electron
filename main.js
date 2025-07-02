@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 process.env.NODE_ENV = "development";
 
@@ -14,12 +14,23 @@ function createMainWindow() {
     title: "ImageCompressor",
     x: 0,
     y: 400,
-    width: 500,
+    width: isDev ? 800 : 500,
     height: 600,
     icon: "./assets/icons/Icon_256x256.png",
     resizable: isDev,
     backgroundColor: "white",
+    webPreferences: {
+      nodeIntegration: true, // ✅ allows require in renderer
+      contextIsolation: false, // ✅ allows direct access to Node APIs
+      webSecurity: false, // ✅ allows access to file path
+      enableRemoteModule: true, // optional if you use remote
+      sandbox: false,
+    },
   });
+
+  if (isDev) {
+    mainWindow.webContents.openDevTools();
+  }
 
   mainWindow.loadFile("./app/index.html");
 }
@@ -50,6 +61,10 @@ app.on("ready", () => {
   //   );
   //garbage collection
   mainWindow.on("ready", () => (mainWindow = null));
+});
+
+ipcMain.on("image:minimize", (e, options) => {
+  console.log(options);
 });
 
 const menu = [
