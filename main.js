@@ -12,7 +12,8 @@ log.initialize();
 log.info("Log from the main process");
 console.log("Log path:", log.transports.file.getFile().path);
 
-process.env.NODE_ENV = "development";
+process.env.NODE_ENV = "production";
+// process.env.NODE_ENV = "development";
 
 const isDev = process.env.NODE_ENV !== "production";
 const isMac = process.platform === "darwin";

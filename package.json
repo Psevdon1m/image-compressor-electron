@@ -1,5 +1,6 @@
 {
   "name": "image-compressor-electron",
+  "productName":"ImageCompressor",
   "version": "1.0.0",
   "description": "App to optimize imagies",
   "homepage": "https://github.com/Psevdon1m/image-compressor-electron#readme",
@@ -17,7 +18,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dev": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron .",
+    "package-mac": "electron-packager . --overwrite --platform-darwin --arch-x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-build",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ImageCompressor App\"",    
+"package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
   },
   "devDependencies": {
     "electron": "^37.1.0",
@@ -25,6 +29,7 @@
   },
   "dependencies": {
     "electron-log": "^5.4.1",
+    "electron-packager": "^17.1.2",
     "imagemin": "^9.0.1",
     "imagemin-mozjpeg": "^10.0.0",
     "imagemin-pngquant": "^10.0.0",
