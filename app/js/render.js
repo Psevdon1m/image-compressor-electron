@@ -19,11 +19,17 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   const img = document.getElementById("img");
   let resImg = img.files[0];
-  console.log(resImg);
 
   const imgPath = getPathForFile(resImg);
-  console.log({ imgPath });
 
   const quality = slider.value;
   ipcRenderer.send("image:minimize", { quality, imgPath });
+});
+
+//on done
+
+ipcRenderer.on("image:done", () => {
+  M.toast({
+    html: `Image compressed to ${slider.value}% quality`,
+  });
 });

@@ -1,4 +1,16 @@
-const { app, BrowserWindow, Menu, ipcMain } = require("electron");
+const path = require("path");
+const os = require("os");
+const { app, BrowserWindow, Menu, ipcMain, shell } = require("electron");
+//this is common js file, but libs are exported as modules. to access functions we need to get .default prop of packages
+const imagemin = require("imagemin").default;
+const imageminMozjpeg = require("imagemin-mozjpeg").default;
+
+const imageminPngquant = require("imagemin-pngquant").default;
+const slash = require("slash").default;
+const log = require("electron-log/main").default;
+log.initialize();
+log.info("Log from the main process");
+console.log("Log path:", log.transports.file.getFile().path);
 
 process.env.NODE_ENV = "development";
 
@@ -63,9 +75,31 @@ app.on("ready", () => {
   mainWindow.on("ready", () => (mainWindow = null));
 });
 
-ipcMain.on("image:minimize", (e, options) => {
-  console.log(options);
+ipcMain.on("image:minimize", async (e, options) => {
+  options.dest = path.join(os.homedir(), "imageCompress");
+  compressImage(options);
 });
+
+async function compressImage({ imgPath, quality, dest }) {
+  try {
+    const pngQuality = quality / 100;
+    const files = await imagemin([slash(imgPath)], {
+      destination: dest,
+      plugins: [
+        imageminMozjpeg({ quality }),
+        imageminPngquant({
+          quality: [pngQuality, pngQuality],
+        }),
+      ],
+    });
+    log.info("File processed");
+    shell.openPath(dest);
+
+    mainWindow.webContents.send("image:done");
+  } catch (error) {
+    log.error(error);
+  }
+}
 
 const menu = [
   //to make file menu on mac
