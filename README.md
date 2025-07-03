@@ -59,3 +59,6 @@ ImageCompressor is a simple desktop application built with Electron that allows 
 ## License
 
 MIT
+
+## Sidenote
+This project is a part of electron Udemy course: "Electron From Scratch: Build Desktop Apps With JavaScript" by Brad Traversy
